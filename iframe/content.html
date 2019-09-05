@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>iframeContent</title>
+
+</head>
+<body>
+    <h1>Its iframe content</h1>
+    <button onclick="myFunction()">click</button>
+    <p id="msg"></p>
+    <script>
+
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener) {
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        }
+
+        // Listen to messages from parent window
+        bindEvent(window, 'message', function (e) {
+            console.log(e.data);
+            document.getElementById("msg").innerHTML = "message: "+e.data;
+        });
+
+        // Send a message to the parent
+        function myFunction() {
+            window.parent.postMessage("iframe to window", 'http://127.0.0.1:5500/index.html');
+        }
+    </script>
+
+</body>
+</html>
